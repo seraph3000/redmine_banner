@@ -19,5 +19,7 @@ ru:
   page_overview_only: "Обзор"
   page_all: "Везде"
   page_overview_and_issues: "Обзор и Задачи"
-  page_new_issue_only: "Новая задача"  
-    
+  page_new_issue_only: "Новая задача"
+  # 0.4.0 Seraph3000
+  label_banner_force_default: "Force display\n(override roles)"
+  text_banner_force_default_help: "If checked, this project banner is shown to all users, overriding role-specific banners."

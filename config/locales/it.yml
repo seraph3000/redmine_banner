@@ -26,4 +26,6 @@ it:
   setting_banner_related_link_description: "Se definito, viene allegato il link per ulteriori informazioni."
   more_info: "[Piu' Info]"
   label_more_info: "Link per ulteriori informazioni."
-    
+  # 0.4.0 Seraph3000
+  label_banner_force_default: "Force display\n(override roles)"
+  text_banner_force_default_help: "If checked, this project banner is shown to all users, overriding role-specific banners."

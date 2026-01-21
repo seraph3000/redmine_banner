@@ -32,4 +32,7 @@ zh:
   label_anonymous_only: "匿名用户"
   label_authenticated_only: "认证用户"
   label_display_all: "所有用户"
-  
+  # 0.4.0 Seraph3000
+  label_banner_force_default: "Force display\n(override roles)"
+  text_banner_force_default_help: "If checked, this project banner is shown to all users, overriding role-specific banners."
+

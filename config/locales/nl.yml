@@ -22,4 +22,7 @@ nl:
   page_new_issue_only: "Alleen bij nieuwe Incidenten"
   label_display_authenticated_user_only: "Laat de Banneer alleen zien bij aangemelde gebruikers."
   label_check_if_banner_show_only_login_page: "Optie: Alleen weergeven bij het loginscherm."
-    
+  # 0.4.0 Seraph3000
+  label_banner_force_default: "Force display\n(override roles)"
+  text_banner_force_default_help: "If checked, this project banner is shown to all users, overriding role-specific banners."
+

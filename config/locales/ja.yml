@@ -32,3 +32,6 @@ ja:
   label_anonymous_only: "ログインしていないユーザのみ"
   label_authenticated_only: "ログインユーザのみ"
   label_display_all: "全てのユーザ"
+  # 0.4.0 Seraph3000
+  label_banner_force_default: "強制表示\n(全ロールに適用)"
+  text_banner_force_default_help: "チェックを付けると、このプロジェクトの全ユーザーに、このバナーを表示します（ロール別バナーより優先されます）。"

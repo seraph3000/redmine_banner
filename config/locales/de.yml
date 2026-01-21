@@ -32,3 +32,6 @@ de:
   label_anonymous_only: "Anonyme Benutzer"
   label_authenticated_only: "Eingeloggte Benutzer"
   label_display_all: "Alle"
+  # 0.4.0 Seraph3000
+  label_banner_force_default: "Force display\n(override roles)"
+  text_banner_force_default_help: "If checked, this project banner is shown to all users, overriding role-specific banners."

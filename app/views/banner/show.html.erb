@@ -1,11 +1,38 @@
 <% banner = @banner %>
 <h2><%= l(:banner) %></h2>
 
-<%= form_tag({ action: 'edit' }, id: 'banner') do %>
+<% if @banner_roles.present? %>
+  <div class="banner-role-select box">
+    <%= form_tag({ action: 'show', project_id: @project }, method: :get, id: 'banner_role_form') do %>
+      <label><%= l(:field_role) %></label>
+      <%= select_tag(
+            'role_id',
+            options_for_select(
+              [[ '(default)', '' ]] +
+              @banner_roles.map { |r| [r.name, r.id] },
+              banner.role_id&.to_s
+            ),
+            onchange: 'this.form.submit();'
+          ) %>
+    <% end %>
+  </div>
+<% end %>
 
-<div id="banner_setting">
-<%= error_messages_for 'banner' %>
-<div class='box tabular'>
+<%= form_tag({ action: 'edit', project_id: @project }, id: 'banner') do %>
+
+  <%= hidden_field_tag 'setting[role_id]', banner.role_id %>
+
+  <div id="banner_setting">
+  <%= error_messages_for 'banner' %>
+  <div class='box tabular'>
+
+  <% if banner.role_id.nil? %>
+    <p>
+      <%= content_tag(:label, l(:label_banner_force_default).gsub("\n", '<br>').html_safe) %>
+      <%= check_box_tag 'setting[force_display]', '1', banner.force_display? %>
+      <em><%= l(:text_banner_force_default_help) %></em>
+    </p>
+  <% end %>
 
 <p>
   <%= content_tag(:label, l(:button_activate))%>

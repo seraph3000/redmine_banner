@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
-require 'redmine'
-require_relative 'app/models/global_banner'
-require 'banners/application_hooks'
+## require File.dirname(__FILE__) + '/../../lib/redmine'
+require File.dirname(__FILE__) + '/app/models/global_banner'
+require File.dirname(__FILE__) + '/lib/banners/banner_header_hooks'
+require File.dirname(__FILE__) + '/app/helpers/banner_helper'
 
 # NOTE: Keep error message for a while to support Redmine3.x users.
 def banner_version_message(original_message = nil)
@@ -27,12 +28,12 @@ end
 Redmine::Plugin.register :redmine_banner do
   begin
     name 'Redmine Banner plugin'
-    author 'Akiko Takano'
-    author_url 'http://twitter.com/akiko_pusu'
-    description 'Plugin to show site-wide message, such as maintenacne informations or notifications.'
-    version '0.3.4'
+    author 'Akiko Takano / seraph3000'
+    author_url 'https://github.com/seraph3000'
+    description "Maintained fork of Akiko Takano's Redmine Banner plugin with role-based project banners, keeping original behaviour compatible."
+    version '0.4.0'
     requires_redmine version_or_higher: '4.0'
-    url 'https://github.com/akiko-pusu/redmine_banner'
+    url 'https://github.com/seraph3000/redmine_banner'
 
     settings partial: nil, default: GlobalBanner::GLOBAL_BANNER_DEFAULT_SETTING
 
@@ -50,3 +51,5 @@ Redmine::Plugin.register :redmine_banner do
     raise ::Redmine::PluginRequirementError.new(banner_version_message(e.message)) # rubocop:disable Style/RaiseArgs
   end
 end
+
+ActionView::Base.include BannerHelper

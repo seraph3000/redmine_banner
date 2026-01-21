@@ -1,5 +1,12 @@
 # Redmine Banner Plugin
 
+This is a maintained fork of Akiko Takano's Redmine Banner plugin.
+
+Original repository: https://github.com/akiko-pusu/redmine_banner
+Original author: Akiko Takano (@akiko_pusu)
+
+---
+
 Plugin to show site-wide message from site administrator, such as maintenance
 information or notifications.
 
@@ -9,35 +16,126 @@ information or notifications.
 
 <img src='assets/images/banner-screenshot.png' width='500px'>
 
+## About this fork
+
+This repository is a fork that keeps the original behaviour while adding some
+features and Redmine 6 support.
+
+- Based on original **0.3.4**
+- Plugin version: **0.4.0**
+- Main additions in this fork:
+  - Redmine **4 / 5 / 6** support
+  - **Role-based project banners** (`project_id` + `role_id`)
+  - **Force display** option for the default project banner
+  - **Colored role labels** (“badges”) based on role priority
+  - Locales from the original plugin are kept; new strings are provided in
+    English and Japanese (other languages fall back to English)
+- Behaviour when you **do not** configure any role-specific banner:
+  - Stays the same as original: “one project – one banner”
+
+Tested with:
+
+- Redmine 4.2.x
+- Redmine 5.1.x
+- Redmine 6.0.x / 6.1.x
+
+Fork maintainer:
+
+- Seraph (@seraph3000)
+
+---
+
 ## Plugin installation
 
 1. Copy the plugin directory into the $REDMINE_ROOT/plugins directory. Please
-    note that plugin's folder name should be **"redmine_banner"**. If
-    changed, some migration task will be failed.
+   note that plugin's folder name should be **"redmine_banner"**. If
+   changed, some migration task will be failed.
 2. Do migration task.
 
-    e.g. rake redmine:plugins:migrate RAILS_ENV=production
-
+   ```bash
+   rake redmine:plugins:migrate NAME=redmine_banner RAILS_ENV=production
+   ```
 3. (Re)Start Redmine.
+
+## Upgrade from original `redmine_banner`
+
+If you are already using Akiko's original plugin:
+
+1. Stop Redmine.
+2. Replace the old plugin directory with this fork (keeping the directory name `redmine_banner`):
+
+```bash
+cd $REDMINE_ROOT/plugins
+rm -rf redmine_banner
+git clone https://github.com/seraph3000/redmine_banner.git
+```
+
+3. Run migrations (this fork adds a new column `role_id` to `banners` table):
+
+```bash
+cd $REDMINE_ROOT
+rake redmine:plugins:migrate NAME=redmine_banner RAILS_ENV=production
+```
+
+4. Restart Redmine.
+
+Existing data:
+
+* Existing project banners are kept as **default project banners**
+
+  (`role_id` will be `NULL`).
+* Until you configure role-specific banners, behaviour will be identical to
+
+  the original plugin.
 
 ## Uninstall
 
 Try this:
 
-* rake redmine:plugins:migrate NAME=redmine_banner VERSION=0
-    RAILS_ENV=production
+```bash
+rake redmine:plugins:migrate NAME=redmine_banner VERSION=0 RAILS_ENV=production
+```
 
 ## Usage for site wide banner
 
 1. Go to plugin's page and click "Settings" link of Redmine Banner Plugin.
-You can edit banner message and select style for message. Also you can access setting page from administration menu, click "banner" icon.
+   You can edit banner message and select style for message. Also you can access setting page from administration menu, click "banner" icon.
 
 ### Usage for project scope banner
 
 1. Banner can be used as project module. If you want to manage the banner for your project, "Manage Banner" permission is required to your role.
-
 2. Go to project settings tab and check "Banner" as project module.
 3. Then you can see "Banner" tab on project settings page.
+
+### Role-based project banners (fork feature)
+
+This fork extends project banners so you can define different messages per role.
+
+* Each banner record has:
+  * `project_id`
+  * `role_id` (may be `NULL`)
+  * other fields (style, description, etc.)
+* For a given project and current user:
+  1. Plugin collects the user's roles in that project.
+  2. If a banner exists whose `role_id` matches one of those roles:
+     * The banner for the highest priority role (based on Redmine role
+
+       `position`) is shown.
+  3. If no role-specific banner exists:
+     * The default project banner (`role_id = NULL`) is shown.
+
+Example use cases:
+
+* Project managers see:
+  > “Reminder: please review open issues before the sprint starts.”
+  >
+* Reporters see:
+  > “When creating issues, please fill in the ‘Steps to reproduce’ section.”
+  >
+
+If you do not configure any roles, the behaviour is exactly the same as
+
+original: one banner per project.
 
 ### Current limitations
 
@@ -49,6 +147,19 @@ You can edit banner message and select style for message. Also you can access se
 Please use ver **0.1.x** or ``v0.1.x-support-Redmine3`` branch in case using Redmine3.x.
 
 ## Changelog
+
+### 0.4.0
+
+* Add `role_id` column to `banners` table.
+* Add `Banner.for(project, user)` to select a project banner based on user roles.
+* Implement role-based selection in project banner hook.
+* Add SVG icon support for global and project banners on Redmine 6.
+* Keep PNG icons and behaviour for Redmine 4 / 5.
+* Do not change default behaviour when `role_id` is not used.
+
+For older changes, please see the original project’s changelog:
+
+* [https://github.com/akiko-pusu/redmine_banner](https://github.com/akiko-pusu/redmine_banner?utm_source=chatgpt.com)
 
 ### 0.3.4
 
@@ -63,7 +174,7 @@ Updating to 0.3.3 is highly recommended!
 
 * Bugfix: HTML problems on redmine_banner.
 * Bugfix: Fix wrong url to project banner setting.
-*Refactor: Remove unused file.
+  *Refactor: Remove unused file.
 
 ### 0.3.2
 
@@ -78,6 +189,7 @@ Updating to 0.3.2 is highly recommended!
 
 * Feature: Enabled to switch who can see the global banner. (#126)
 * Refactor: Change to use project menu to prevent the project setting tab's conflict. (#127)
+
 ### 0.3.1
 
 * Feature: Enabled to switch who can see the global banner. (#126)
@@ -116,7 +228,7 @@ Updating to 0.2.2 is highly recommended!
 * Support Redmine 4.x.
   * Now master branch **unsupports** Redmine 3.x.
   * Please use ver **0.1.x** or ``v0.1.x-support-Redmine3`` branch in case using Redmine3.x.
-  * <https://github.com/akiko-pusu/redmine_banner/tree/v0.1.x-support-Redmine3>
+  * [https://github.com/akiko-pusu/redmine_banner/tree/v0.1.x-support-Redmine3](https://github.com/akiko-pusu/redmine_banner/tree/v0.1.x-support-Redmine3)
 * Follow Redmine's preview option to the wiki toolbar.
 
 NOTE: Mainly, maintenance, bugfix and refactoring only. There is no additional feature, translation in this release.
@@ -180,7 +292,6 @@ NOTE: Mainly, maintenance, bugfix and refactoring only. There is no additional f
 ### 0.0.3
 
 * Code refactoring. Stop to override base.rhtml and use javascript. Great thanks, Haru Iida-san. Also, remove some "To-Do" section of README.
-
 * Add translations. Russian, German, Brazilian Portugues. Thank you so much, Александр Ананьев, Denny Schäfer, Maiko de Andrade!
 
 ### 0.0.2
@@ -232,13 +343,19 @@ or
 
 ### Repository
 
-* <https://github.com/akiko-pusu/redmine_banner>
+* Original: [https://github.com/akiko-pusu/redmine_banner](https://github.com/akiko-pusu/redmine_banner?utm_source=chatgpt.com)
+* Fork (this repository): [https://github.com/seraph3000/redmine_banner](https://github.com/seraph3000/redmine_banner)
 
 ### WebPage
 
-* <http://www.r-labs.org/projects/banner> (Project Page)
+* [http://www.r-labs.org/projects/banner](http://www.r-labs.org/projects/banner) (Project Page)
 
 ### License
 
-This software is licensed under the GNU GPL v2. See COPYRIGHT and COPYING for
-details.
+This software is licensed under the GNU GPL v2.
+
+See `COPYRIGHT` and `COPYING` for details.
+
+Original copyright remains with Akiko Takano.
+
+Additional changes in this fork are provided under the same license.

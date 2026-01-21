@@ -168,3 +168,59 @@ div.banner_area div.banner_more_info:hover {
     opacity: 0;
   }
 }
+
+/*------------ 共通スタイル -----------------*/
+.banner-role-label {
+  display: inline-block;
+  margin-right: 6px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 90%;
+  margin-bottom: -5px;
+  padding-bottom: 0px;
+  margin-left: 10px;
+}
+
+/* デフォルト（role_id = NULL） */
+.banner-role-label-default {
+  background-color: #eeeeee;
+  color: #333333;
+}
+
+/* ここからロールIDごとの色 */
+/* ※ role_id は環境で違うので、自分の環境に合わせて書き換え */
+
+.banner-role-label-1 {
+  background-color: #d9534f;
+  color: #ffffff;
+}
+
+.banner-role-label-2 {
+  background-color: #f0ad4e;
+  color: #ffffff;
+}
+
+.banner-role-label-3 {
+  background-color: #5bc0de;
+  color: #ffffff;
+}
+
+.banner-role-label-4 {
+  background-color: #5cb85c;
+  color: #ffffff;
+}
+
+.banner-role-label-5 {
+  background-color: #154564;
+  color: #ffffff;
+}
+
+.banner-role-label-6 {
+  background-color: #a043b8;
+  color: #ffffff;
+}
+
+.banner-role-label-7 {
+  background-color: #777777;
+  color: #ffffff;
+}

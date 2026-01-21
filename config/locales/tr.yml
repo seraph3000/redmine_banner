@@ -26,3 +26,6 @@ tr:
   setting_banner_related_link_description: "tanımlıysa, daha fazla bilgi bağlantısı eklenir."
   more_info: "[Daha fazla bilgi]"
   label_more_info: "Daha fazla bilgi için bağlantı."
+  # 0.4.0 Seraph3000
+  label_banner_force_default: "Force display\n(override roles)"
+  text_banner_force_default_help: "If checked, this project banner is shown to all users, overriding role-specific banners."
