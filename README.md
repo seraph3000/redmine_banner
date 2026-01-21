@@ -153,7 +153,6 @@ Please use ver **0.1.x** or ``v0.1.x-support-Redmine3`` branch in case using Red
 * Add `role_id` column to `banners` table.
 * Add `Banner.for(project, user)` to select a project banner based on user roles.
 * Implement role-based selection in project banner hook.
-* Add SVG icon support for global and project banners on Redmine 6.
 * Keep PNG icons and behaviour for Redmine 4 / 5.
 * Do not change default behaviour when `role_id` is not used.
 
