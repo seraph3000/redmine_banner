@@ -165,7 +165,7 @@ For older changes, please see the original project’s changelog:
 
 Maintenance release.
 
-* Update German translation. (GutHub: #142 by @teatower)
+* Update German translation. (GitHub: #142 by @teatower)
 
 ### 0.3.3
 

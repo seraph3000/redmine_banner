@@ -19,7 +19,6 @@ module Banners
       project = context[:project]
       return unless enabled?(project)
 
-      # ここを変更
       banner = Banner.for(project, context[:user] || User.current)
       return '' unless banner&.enable_banner?
 

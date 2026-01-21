@@ -46,8 +46,7 @@ class Banner < ActiveRecord::Base
         []
       end
 
-    # Redmine のロール position を使った優先順位でもよいし、
-    # 必要ならここに管理者＞責任者＞リーダー…の手動優先度を載せてもOK
+    # Redmine のロール position を使った優先順位でもよい
     roles.sort_by(&:position).each do |role|
       banner = scope.where(role_id: role.id).first
       return banner if banner&.enable_banner?
