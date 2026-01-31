@@ -1,6 +1,7 @@
 <div class="banner_area global_banner">
   <div class="banner banner_<%= setting['type'] %>" id="banner_content">
-    <%= textilizable setting['banner_description'] %>
+    <%#= textilizable setting['banner_description'] %>
+    <%= textilizable(banner_expand_macros(setting['banner_description'])) %>
   </div>
   <div class="banner_edit">
     <%= link_to l(:button_edit),

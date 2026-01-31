@@ -6,7 +6,8 @@
       </span>
     <% end %>
 
-    <%= textilizable banner.banner_description %>
+    <%#= textilizable banner.banner_description %>
+    <%= textilizable(banner_expand_macros(banner.banner_description)) %>
   </div>
 
 <%

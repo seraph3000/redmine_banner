@@ -22,12 +22,13 @@ This repository is a fork that keeps the original behaviour while adding some
 features and Redmine 6 support.
 
 - Based on original **0.3.4**
-- Plugin version: **0.4.0**
+- Plugin version: **0.4.1**
 - Main additions in this fork:
   - Redmine **4 / 5 / 6** support
   - **Role-based project banners** (`project_id` + `role_id`)
   - **Force display** option for the default project banner
   - **Colored role labels** (“badges”) based on role priority
+  - **Banner macros** for countdowns, date/time, environment and user info
   - Locales from the original plugin are kept; new strings are provided in
     English and Japanese (other languages fall back to English)
 - Behaviour when you **do not** configure any role-specific banner:
@@ -101,9 +102,75 @@ rake redmine:plugins:migrate NAME=redmine_banner VERSION=0 RAILS_ENV=production
 1. Go to plugin's page and click "Settings" link of Redmine Banner Plugin.
    You can edit banner message and select style for message. Also you can access setting page from administration menu, click "banner" icon.
 
+### Banner macros (fork feature)
+
+This fork adds simple macros that you can use inside the banner message.
+They are expanded on display for both the global banner and project banners.
+
+#### Countdown macros
+
+All countdown macros take a target date/time in the current user's time zone:
+
+* `%{cdate:YYYY-MM-DD HH:MM}` – remaining days until the target.
+* `%{chours:YYYY-MM-DD HH:MM}` – remaining hours (0–23 after subtracting full days).
+* `%{cmin:YYYY-MM-DD HH:MM}` – remaining minutes (0–59 after subtracting full hours).
+* `%{ctime:YYYY-MM-DD HH:MM}` – remaining total time as `HH:MM`
+  (for example `120:15`).
+
+Example:
+
+```text
+Maintenance will start in %{cdate:2026-02-02 08:00} days \
+%{chours:2026-02-02 08:00} hours \
+%{cmin:2026-02-02 08:00} minutes.
+```
+
+If the target time is in the past, countdown macros return `0`
+(or `00:00` for `ctime`).
+
+#### Date / time and environment macros
+
+* `%{today}` – current date formatted according to the user's language
+  preferences (`format_date`).
+* `%{now}` – current date and time formatted according to the user's language
+  preferences (`format_time`).
+* `%{env}` – environment label derived from `Rails.env`
+  (for example `PROD`, `DEV`, `STG`).
+
+Example:
+
+```text
+[%{env}] Information for %{today}.
+This banner was last updated at %{now}.
+```
+
+#### User-related macros
+
+These macros are expanded only for logged-in users. For anonymous users they
+return an empty string.
+
+* `%{user_name}` – current user's display name.
+* `%{user_last_login}` – user's last login date/time
+  (not shown on the login page for privacy reasons).
+* `%{user_login_rank_today}` – “you are the N-th logged-in user today”,
+  calculated from `users.last_login_on`.
+
+Example:
+
+```text
+You are %{user_login_rank_today}-th user logged in today.
+Your last login: %{user_last_login}
+This notice is for %{user_name}.
+```
+
+> **Note:** `user_login_rank_today` performs a count query on the `users`
+> table for the current day. On very large instances this may have some
+> performance impact; if in doubt, do not use this macro.
+
+
 ### Usage for project scope banner
 
-1. Banner can be used as project module. If you want to manage the banner for your project, "Manage Banner" permission is required to your role.
+1. Banner can be used as a project module. If you want to manage the banner in your project, "Manage Banner" permission is required for your role.
 2. Go to project settings tab and check "Banner" as project module.
 3. Then you can see "Banner" tab on project settings page.
 
@@ -147,6 +214,11 @@ original: one banner per project.
 Please use ver **0.1.x** or ``v0.1.x-support-Redmine3`` branch in case using Redmine3.x.
 
 ## Changelog
+
+### 0.4.1
+
+* Add banner macros for countdown, date/time, environment and user information.
+* Apply macro expansion to both global and project banners.
 
 ### 0.4.0
 

@@ -31,7 +31,7 @@ Redmine::Plugin.register :redmine_banner do
     author 'Akiko Takano / seraph3000'
     author_url 'https://github.com/seraph3000'
     description "Maintained fork of Akiko Takano's Redmine Banner plugin with role-based project banners, keeping original behaviour compatible."
-    version '0.4.0'
+    version '0.4.1'
     requires_redmine version_or_higher: '4.0'
     url 'https://github.com/seraph3000/redmine_banner'
 
