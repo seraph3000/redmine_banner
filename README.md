@@ -18,6 +18,9 @@ information or notifications.
 
 ## About this fork
 
+本リポジトリは「Redmine Banner」プラグインのメンテナンスフォークです。
+Redmine 4 / 5 / 6 向けの動作確認と、ロール別プロジェクトバナーなどの拡張を追加しています。
+
 This repository is a fork that keeps the original behaviour while adding some
 features and Redmine 6 support.
 
