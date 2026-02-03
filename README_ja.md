@@ -44,7 +44,28 @@ Redmine 4 / 5 / 6 向けに拡張・保守している fork です。
 
    Passenger / Puma / Thin / Unicorn など、運用しているアプリサーバの再起動方法に従ってください。
 
-アンインストールする場合は、以下を実行します。
+
+
+## ⚠ 0.3.4 からのアップグレードで `Zeitwerk::NameError` が出る場合
+
+**0.3.4 からアップグレード**する際、起動時に以下のようなエラーが出ることがあります。
+
+* `Zeitwerk::NameError (expected file ... to define ...)`
+
+これは Redmine/Rails の更新により **Zeitwerk の自動読み込み（命名規約チェック）が厳格化**されたことが原因です。
+
+**推奨対処**
+
+* プラグインを「上書き」せず、`plugins/redmine_banner` を一度削除してから最新版を配置してください（クリーンデプロイ推奨）。
+* Redmine を再起動してください。
+
+**補足**
+旧版のファイルが残っていると、ファイルパスと class/module 名の不一致により `Zeitwerk::NameError` が発生する場合があります。
+
+
+
+
+## アンインストールする場合は、以下を実行します。
 
    ```bash
     bundle exec rake redmine:plugins:migrate NAME=redmine_banner VERSION=0 RAILS_ENV=production

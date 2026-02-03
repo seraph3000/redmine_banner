@@ -83,6 +83,27 @@ rake redmine:plugins:migrate NAME=redmine_banner RAILS_ENV=production
 
 4. Restart Redmine.
 
+---
+
+### ⚠ Zeitwerk::NameError when upgrading from 0.3.4
+
+If you upgrade from **0.3.4**, you may hit a boot-time error such as:
+
+* `Zeitwerk::NameError (expected file ... to define ...)`
+
+This is caused by stricter **Zeitwerk autoloading** checks in newer Redmine/Rails.
+
+**Recommended fix**
+
+* Do **not** partially overwrite the plugin directory.
+  Remove the existing `plugins/redmine_banner` directory first, then deploy a clean copy of the new version.
+* Restart Redmine.
+
+**Why**
+Zeitwerk requires the file path and the Ruby constant name (class/module) to match. Old files left behind can trigger this error during upgrade.
+
+---
+
 Existing data:
 
 * Existing project banners are kept as **default project banners**
