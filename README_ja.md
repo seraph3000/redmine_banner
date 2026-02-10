@@ -33,13 +33,11 @@ Redmine 4 / 5 / 6 向けに拡張・保守している fork です。
 
    例:
    `REDMINE_ROOT/plugins/redmine_banner`
-
 2. プラグインのマイグレーションを実行します。
 
    ```bash
    bundle exec rake redmine:plugins:migrate NAME=redmine_banner RAILS_ENV=production
    ```
-
 3. Redmine を再起動します。
 
    Passenger / Puma / Thin / Unicorn など、運用しているアプリサーバの再起動方法に従ってください。
@@ -67,9 +65,9 @@ Redmine 4 / 5 / 6 向けに拡張・保守している fork です。
 
 ## アンインストールする場合は、以下を実行します。
 
-   ```bash
-    bundle exec rake redmine:plugins:migrate NAME=redmine_banner VERSION=0 RAILS_ENV=production
-   ```
+```bash
+ bundle exec rake redmine:plugins:migrate NAME=redmine_banner VERSION=0 RAILS_ENV=production
+```
 
 ---
 
@@ -95,22 +93,19 @@ Redmine 4 / 5 / 6 向けに拡張・保守している fork です。
 
 ### カウントダウンマクロ
 
-指定した日時までの残り時間を表示するマクロです。 \
+指定した日時までの残り時間を表示するマクロです。
 日時は Redmine／ユーザーのタイムゾーン設定に従って解釈されます。
 
 利用できるマクロは次のとおりです。
 
-* `%{cdate:YYYY-MM-DD HH:MM}` \
+* `%{cdate:YYYY-MM-DD HH:MM}`
   指定日時までの「残り日数」（整数）
-
-* `%{chours:YYYY-MM-DD HH:MM}` \
+* `%{chours:YYYY-MM-DD HH:MM}`
   指定日時までのうち、「日」を除いた「残り時間（0〜23）」
-
-* `%{cmin:YYYY-MM-DD HH:MM}` \
+* `%{cmin:YYYY-MM-DD HH:MM}`
   指定日時までのうち、「日」と「時間」を除いた「残り分（0〜59）」
-
-* `%{ctime:YYYY-MM-DD HH:MM}` \
-  指定日時までの「総時間」を `HH:MM` 形式で表示 \
+* `%{ctime:YYYY-MM-DD HH:MM}`
+  指定日時までの「総時間」を `HH:MM` 形式で表示
   例: `120:15`（= 120時間15分）
 
 #### 使用例
@@ -136,7 +131,6 @@ Redmine 4 / 5 / 6 向けに拡張・保守している fork です。
 * `%{today}`
   現在の日付を、ユーザーの言語設定・日付形式に従って表示します。
   （内部的に `format_date` を使用）
-
 * `%{now}`
   現在の日付と時刻を、ユーザーの言語設定・時刻形式に従って表示します。
   （内部的に `format_time` を使用）
@@ -185,7 +179,7 @@ Redmine 4 / 5 / 6 向けに拡張・保守している fork です。
 #### 最終ログイン日時
 
 * `%{user_last_login}`
-  `User.current.last_login_on` を元に、ユーザーの言語・時刻形式に従って表示します。\
+  `User.current.last_login_on` を元に、ユーザーの言語・時刻形式に従って表示します。
   ただし **ログインページ（/login）では表示されません**（空文字を返します）。
 
 使用例:
@@ -197,8 +191,8 @@ Redmine 4 / 5 / 6 向けに拡張・保守している fork です。
 #### 今日何人目のログインか
 
 * `%{user_login_rank_today}`
-  「本日ログインしたユーザーのうち、何人目のログインか」を数えて返します。\
-   ただし **ログインページ（/login）では表示されません**（空文字を返します）。\
+  「本日ログインしたユーザーのうち、何人目のログインか」を数えて返します。
+  ただし **ログインページ（/login）では表示されません**（空文字を返します）。
   例: `5` → 「今日は 5 人目のログインです。」
 
 使用例:
@@ -251,10 +245,11 @@ Redmine 4 / 5 / 6 向けに拡張・保守している fork です。
 * プロジェクト管理者ロール向けバナー:
 
   > 「スプリント開始前に、担当未設定チケットを整理してください。」
-
+  >
 * Reporter ロール向けバナー:
 
   > 「チケット作成時は『再現手順』欄の記入をお願いします。」
+  >
 
 ロール別バナーを何も設定しない場合は、**元のプラグインと同様に「プロジェクトごとに 1つのバナー」** として動作します。
 
@@ -271,6 +266,10 @@ Redmine 4 / 5 / 6 向けに拡張・保守している fork です。
 ---
 
 ## 変更履歴（この fork）
+
+### 0.4.2
+
+* 修正: 管理者がプロジェクト画面からグローバルバナーを編集した際に保存できない（`/global_banner/<project>` へのルーティングエラーが発生する）不具合を修正しました。現在は常に `global_banner#update` へ正しく POST されます。
 
 ### 0.4.1
 
@@ -299,7 +298,6 @@ Redmine 4 / 5 / 6 向けに拡張・保守している fork です。
 
 * 元リポジトリ（オリジナル）
   [https://github.com/akiko-pusu/redmine_banner](https://github.com/akiko-pusu/redmine_banner)
-
 * この fork
   [https://github.com/seraph3000/redmine_banner](https://github.com/seraph3000/redmine_banner)
 
@@ -312,4 +310,3 @@ Redmine 4 / 5 / 6 向けに拡張・保守している fork です。
 * 詳細は同梱の `COPYRIGHT` および `COPYING` を参照してください。
 * 著作権は元作者である Akiko Takano さんに帰属します。
 * 本 fork で追加された改変部分も、同じライセンスに従います。
-
