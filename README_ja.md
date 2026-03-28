@@ -27,6 +27,26 @@ Redmine 4 / 5 / 6 向けに拡張・保守している fork です。
 
 ---
 
+### 機能紹介（画像）
+
+**ロール別プロジェクトバナー**
+
+プロジェクト内のロールごとに異なるメッセージを表示できます。
+
+![ロールごとの色分け](https://assets.st-note.com/img/1774708569-IGREpPwB01KvmDayL7CjlXHt.png)
+
+**バナーマクロ機能**
+
+マクロを使用してバナーに動的なコンテンツを追加できます。
+
+![プロジェクトバナー用編集画面](https://assets.st-note.com/img/1774708660-sQ860BSPEwLetAoZ94mK3dfc.png)
+
+![マクロ機能の結果の例](https://assets.st-note.com/img/1774708680-Vbuoi0ev9rTpwPmOg1D4xqYa.png)
+
+詳しい紹介記事（日本語）: https://note.com/taba_muichi/n/ncf2c00d2c54b
+
+---
+
 ## インストール
 
 1. このプラグインを Redmine の `plugins` ディレクトリ直下に配置します。
