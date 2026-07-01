@@ -99,7 +99,7 @@
           selected: setting['banner_admin'] || GlobalBanner::GLOBAL_BANNER_ADMIN_GROUP )) %>
         <br/><%= l(:description_for_banner_admin_group, default: "Specify a group that can manage the global banner without admin rights.") %>
       <% else %>
-        <%= setting['banner_admin'] || GlobalBanner::GLOBAL_BANNER_ADMIN_GROUP %>
+        <%= h(setting['banner_admin'] || GlobalBanner::GLOBAL_BANNER_ADMIN_GROUP) %>
       <% end %>
     </p>
   </div>

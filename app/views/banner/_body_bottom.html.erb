@@ -12,9 +12,9 @@
   { class: 'icon banner-icon-off', title: l(:banner_off)} if User.current.logged? %>
   </div>
 
-  <% if setting['related_link'].present? %>
+  <% if (related_url = banner_safe_external_url(setting['related_link'])).present? %>
   <div class="banner_more_info">
-    <%= link_to l(:more_info), setting['related_link'],
+    <%= link_to l(:more_info), related_url,
            { class: 'icon external', title: l(:label_more_info)} %>
   </div>
   <% end %>

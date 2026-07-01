@@ -70,20 +70,22 @@ module BannerHelper
 
     # --- 引数なしマクロ群 ---
     s.gsub!(/%\{(today|now|env|user_name|user_last_login|user_login_rank_today)\}/) do
-      case Regexp.last_match(1)
-      when 'today'
-        format_date(now.to_date)     # ← ユーザー設定に従う
-      when 'now'
-        format_time(now)
-      when 'env'
-        banner_env_label
-      when 'user_name'
-        banner_user_name
-      when 'user_last_login'
-        banner_user_last_login
-      when 'user_login_rank_today'
-        banner_user_login_rank_today
-      end
+      banner_escape_macro(
+        case Regexp.last_match(1)
+        when 'today'
+          format_date(now.to_date)
+        when 'now'
+          format_time(now)
+        when 'env'
+          banner_env_label
+        when 'user_name'
+          banner_user_name
+        when 'user_last_login'
+          banner_user_last_login
+        when 'user_login_rank_today'
+          banner_user_login_rank_today
+        end
+      )
     end
 
     # --- cdate/chours/cmin/ctime 系 ---
@@ -175,6 +177,21 @@ module BannerHelper
     when 'development' then 'DEV'
     else env.upcase
     end
+  end
+
+  def banner_escape_macro(value)
+    ERB::Util.html_escape(value.to_s)
+  end
+
+  def banner_safe_external_url(url)
+    return nil if url.blank?
+
+    uri = URI.parse(url.to_s.strip)
+    return url if uri.is_a?(URI::HTTP) && uri.host.present?
+
+    nil
+  rescue URI::InvalidURIError
+    nil
   end
 
 end

@@ -47,7 +47,13 @@ class BannerControllerTest < Redmine::ControllerTest
     assert_generates('banner/off', controller: 'banner', action: 'off')
   end
 
+  def test_preview_banner_requires_login
+    get :preview, params: { setting: { banner_description: 'h1. Test data.' } }
+    assert_response 401
+  end
+
   def test_preview_banner
+    @request.session[:user_id] = 1
     get :preview, params: { setting: { banner_description: 'h1. Test data.' } }
     assert_select 'h1', /Test data\./, @response.body.to_s
   end
