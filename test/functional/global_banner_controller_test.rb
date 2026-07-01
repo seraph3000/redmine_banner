@@ -115,4 +115,24 @@ class GlobalBannerControllerTest < Redmine::ControllerTest
     assert_response :redirect
     assert_not_nil flash[:error]
   end
+
+  def test_post_rejects_non_http_related_link
+    post :update, params: { setting: { enable: 'true', type: 'info', display_part: 'both',
+                                       use_timer: 'false',
+                                       banner_description: 'desc',
+                                       related_link: 'javascript:alert(1)' } }
+    assert_response :redirect
+    assert_nil GlobalBanner.find_or_default.value['related_link']
+  end
+
+  def test_post_coerces_unknown_enum_values
+    post :update, params: { setting: { enable: 'true', type: 'evil"onmouseover=alert(1)', display_part: 'weird',
+                                       display_for: 'nobody', use_timer: 'false',
+                                       banner_description: 'desc' } }
+    assert_response :redirect
+    setting = GlobalBanner.find_or_default.value
+    assert_equal 'info', setting['type']
+    assert_equal 'both', setting['display_part']
+    assert_equal 'all', setting['display_for']
+  end
 end

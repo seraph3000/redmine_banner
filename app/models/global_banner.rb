@@ -4,6 +4,12 @@ class GlobalBanner < Setting
   # Default
   GLOBAL_BANNER_ADMIN_GROUP = 'GlobalBanner_Admin'
 
+  # Allowed values for enum-like settings. Anything else is coerced to a safe
+  # default on save so a template that forgets to escape cannot be abused.
+  ALLOWED_TYPES        = %w[info warn alert normal nodata].freeze
+  ALLOWED_DISPLAY_FOR  = %w[all authenticated anonymous].freeze
+  ALLOWED_DISPLAY_PART = %w[header footer both].freeze
+
   GLOBAL_BANNER_DEFAULT_SETTING = {
     enable: 'false',
     banner_description: 'exp. Information about upcoming Service Interruption.',
@@ -98,6 +104,42 @@ class GlobalBanner < Setting
 
   def merge_value(new_value)
     current_value = value
-    self.value = current_value.merge(new_value).stringify_keys
+    merged = current_value.merge(new_value).stringify_keys
+    self.value = sanitize_setting(merged)
+  end
+
+  private
+
+  # Whitelist enum values and reject non-HTTP(S) related links before the
+  # setting is persisted. Applies to both the web UI and the API.
+  def sanitize_setting(setting)
+    setting = setting.dup
+
+    if setting.key?('type') && !ALLOWED_TYPES.include?(setting['type'])
+      setting['type'] = 'info'
+    end
+
+    if setting.key?('display_for') && !ALLOWED_DISPLAY_FOR.include?(setting['display_for'])
+      setting['display_for'] = 'all'
+    end
+
+    if setting.key?('display_part') && !ALLOWED_DISPLAY_PART.include?(setting['display_part'])
+      setting['display_part'] = 'both'
+    end
+
+    setting['related_link'] = safe_external_url(setting['related_link']) if setting.key?('related_link')
+
+    setting
+  end
+
+  def safe_external_url(url)
+    return nil if url.blank?
+
+    uri = URI.parse(url.to_s.strip)
+    return uri.to_s if uri.is_a?(URI::HTTP) && uri.host.present?
+
+    nil
+  rescue URI::InvalidURIError
+    nil
   end
 end

@@ -15,7 +15,7 @@
   <% if (related_url = banner_safe_external_url(setting['related_link'])).present? %>
   <div class="banner_more_info">
     <%= link_to l(:more_info), related_url,
-           { class: 'icon external', title: l(:label_more_info)} %>
+           { class: 'icon external', title: l(:label_more_info), rel: 'nofollow noopener' } %>
   </div>
   <% end %>
 </div>
