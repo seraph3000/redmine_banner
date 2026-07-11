@@ -5,9 +5,10 @@ class BannerController < ApplicationController
   # NOTE: Authorized user can turn off banner while their in session. (Changed from version 0.0.9)
   #       If Administrator hope to disable site wide banner, please go to settings page and uncheck
   #       eabned checkbox.
-  before_action :require_login, only: [:off]
-  before_action :find_user, :find_project, :authorize, except: %i[preview off]
-  before_action :set_roles_for_banner, only: [:show]
+  before_action :require_login, only: %i[off project_banner_off preview]
+  before_action :find_user, :find_project, except: %i[preview off]
+  before_action :authorize, except: %i[preview off project_banner_off]
+  before_action :authorize_preview, only: [:preview]
 
   def preview
     text  = params[:text].presence || params.dig(:setting, :banner_description).to_s
@@ -89,5 +90,15 @@ class BannerController < ApplicationController
 
   def banner_params
     params.require(:setting).permit('banner_description', 'style', 'start_date', 'end_date', 'enabled', 'use_timer', 'display_part', 'role_id')
+  end
+
+  def authorize_preview
+    return if User.current.admin?
+    return if GlobalBanner.banner_admin?(User.current)
+
+    allowed = User.current.memberships.any? do |m|
+      m.roles.any? { |r| r.allowed_to?(:manage_banner) }
+    end
+    render_403 unless allowed
   end
 end

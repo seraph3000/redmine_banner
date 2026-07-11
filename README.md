@@ -283,6 +283,10 @@ If you don't configure any role-specific banners, the plugin behaves like the or
 
 ## Changelog (This Fork)
 
+### 0.5.1
+
+* Security fixes [#1](https://github.com/seraph3000/redmine_banner/issues/1) [#2](https://github.com/seraph3000/redmine_banner/issues/2) [#3](https://github.com/seraph3000/redmine_banner/pull/3) (thanks to [@mael-chouteau](https://github.com/mael-chouteau))
+
 ### 0.5.0
 
 * **Macro preview**: macros can now be previewed (expanded) in the "Preview" tab of the banner settings screen before applying.

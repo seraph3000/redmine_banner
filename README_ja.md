@@ -288,6 +288,10 @@ Redmine 5 / 6 / 7 向けに拡張・保守している fork です。
 
 ## 変更履歴（この fork）
 
+### 0.5.1
+
+* セキュリティ修正 [#1](https://github.com/seraph3000/redmine_banner/issues/1) [#2](https://github.com/seraph3000/redmine_banner/issues/2) [#3](https://github.com/seraph3000/redmine_banner/pull/3)（thanks to [@mael-chouteau](https://github.com/mael-chouteau)）
+
 ### 0.5.0
 
 * **マクロのプレビュー対応**: バナー設定画面の「プレビュー」タブで、適用前にマクロ展開後の表示を確認できるようになりました。

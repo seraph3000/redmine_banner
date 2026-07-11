@@ -72,17 +72,17 @@ module BannerHelper
     s.gsub!(/%\{(today|now|env|user_name|user_last_login|user_login_rank_today)\}/) do
       case Regexp.last_match(1)
       when 'today'
-        format_date(now.to_date)
+        h(format_date(now.to_date))
       when 'now'
-        format_time(now)
+        h(format_time(now))
       when 'env'
-        banner_env_label
+        h(banner_env_label)
       when 'user_name'
-        banner_user_name
+        h(banner_user_name)
       when 'user_last_login'
-        banner_user_last_login
+        h(banner_user_last_login)
       when 'user_login_rank_today'
-        banner_user_login_rank_today
+        h(banner_user_login_rank_today)
       end
     end
 
@@ -177,4 +177,11 @@ module BannerHelper
     end
   end
 
+  def banner_safe_external_url(url)
+    return nil if url.blank?
+    uri = URI.parse(url.to_s)
+    %w[http https].include?(uri.scheme) ? url : nil
+  rescue URI::InvalidURIError
+    nil
+  end
 end
