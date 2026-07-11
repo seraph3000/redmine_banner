@@ -4,7 +4,7 @@ module BannerHelper
   include ApplicationHelper
 
   def banner_use_svg_icons?
-    false
+    respond_to?(:sprite_icon)
   end
 
   def banner_style_icon_name(style)
@@ -36,7 +36,7 @@ module BannerHelper
 
   def banner_action_icon_off
     return ''.html_safe unless banner_use_svg_icons?
-    sprite_icon('x', nil, icon_only: true, css_class: 'banner-icon-off-svg')
+    sprite_icon('close', nil, icon_only: true, css_class: 'banner-icon-off-svg')
   end
 
   def banner_role_color_class(role)
@@ -72,7 +72,7 @@ module BannerHelper
     s.gsub!(/%\{(today|now|env|user_name|user_last_login|user_login_rank_today)\}/) do
       case Regexp.last_match(1)
       when 'today'
-        format_date(now.to_date)     # ← ユーザー設定に従う
+        format_date(now.to_date)
       when 'now'
         format_time(now)
       when 'env'

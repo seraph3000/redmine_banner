@@ -45,9 +45,7 @@
       <%= text_area_tag 'setting[banner_description]', setting['banner_description'], size: '40x3',
                     class: 'wiki-edit', required: true %><br/>
     </p>
-    <%= wikitoolbar_for 'setting_banner_description' %>
-
-    <div id='banner_description_preview' class='wiki'></div>
+    <%= wikitoolbar_for 'setting_banner_description', url_for(controller: 'banner', action: 'preview') %>
 
     <p>
       <%= content_tag(:label, l(:setting_banner_related_link))%>

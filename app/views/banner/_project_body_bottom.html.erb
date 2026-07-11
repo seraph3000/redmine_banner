@@ -13,27 +13,24 @@
 <%
 if authorize_for(:banner, :edit)
 %>
-  <div class="banner_edit">
-<%= link_to(
-      (banner_action_icon_edit + l(:button_edit)).html_safe,
-      { controller: 'banner', action: 'show', project_id: @project, role_id: banner.role_id },
-      class: 'icon banner-icon-edit banner-icon-edit-link',
-      title: l(:button_edit)
-    ) %>
-<!--//
-<a class="icon banner-icon-off"
-   href="#"
-   onclick="if (confirm('<%= l(:text_are_you_sure) %> ')) {
-   $.ajax({
-          url: '<%= url_for(controller: :banner, action: 'project_banner_off', project_id: @project, role_id: banner.role_id) %>',
-          type: 'get',
-          success: function(data){
-            $('#project_banner_area').remove(); return false;
-          }
-        });
-   }"
-   title="<%= l(:banner_off) %>"><%= l(:button_off) %></a>
-//--->
+<div class="banner_edit">
+    <%= link_to(
+          (banner_action_icon_edit + l(:button_edit)).html_safe,
+          { controller: 'banner', action: 'show', project_id: @project, role_id: banner.role_id },
+          class: 'banner-icon-edit-link',
+          title: l(:button_edit)
+        ) %>
+    <%= link_to(
+          (banner_action_icon_off + l(:button_off)).html_safe,
+          '#',
+          class: 'banner-icon-off-link',
+          title: l(:banner_off),
+          onclick: "$.ajax({" \
+                   "url: '#{url_for(controller: :banner, action: 'project_banner_off', project_id: @project, role_id: banner.role_id)}'," \
+                   "type: 'get'," \
+                   "success: function(){ $('#project_banner_area').fadeOut(500, function(){ $(this).remove(); }); }" \
+                   "}); return false;"
+        ) %>
   </div>
 <% end %>
 

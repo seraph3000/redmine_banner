@@ -63,10 +63,7 @@
   <%=content_tag(:label, l(:label_banner_message)) %>
   <%= text_area_tag 'setting[banner_description]',  banner['banner_description'], size: '40x3',
         class: 'wiki-edit', required: true  %><br/>
- <%= wikitoolbar_for "setting_banner_description" %>
-
-<div id='banner_description_preview' class='wiki'></div>
-
+  <%= wikitoolbar_for "setting_banner_description", url_for(controller: 'banner', action: 'preview') %>
 </div>
 <%= submit_tag l(:button_save) %>
 

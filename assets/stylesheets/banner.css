@@ -58,10 +58,6 @@ span.banner_alert {
   background-size: contain;
 }
 
-#admin-menu a.redmine-banner {
-  background-image: url("../images/alert-msg.png");
-}
-
 span.use_timer {
   background: url("../images/icon-timer.png") no-repeat right center;
   padding-right: 20px;
@@ -92,14 +88,6 @@ div.banner_area div.banner_edit:hover {
   filter: alpha(opacity=90);
   -moz-opacity: .9;
   opacity: .9;
-}
-
-.banner-icon-off {
-  background-image: url("../images/close.png");
-}
-
-.banner-icon-edit {
-  background-image: url("../images/edit.png");
 }
 
 div.project_banner_area div.banner_edit {

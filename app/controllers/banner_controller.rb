@@ -10,7 +10,8 @@ class BannerController < ApplicationController
   before_action :set_roles_for_banner, only: [:show]
 
   def preview
-    @text = params[:setting][:banner_description]
+    text  = params[:text].presence || params.dig(:setting, :banner_description).to_s
+    @text = view_context.banner_expand_macros(text)
     render partial: 'common/preview'
   end
 
@@ -26,11 +27,12 @@ class BannerController < ApplicationController
   end
 
   def project_banner_off
-    role_id = params[:role_id].presence
-    @banner = Banner.for_edit(@project, role_id)
-    @banner.enabled = false
-    @banner.save
+    session[:pref_project_banner_off] ||= {}
+    session[:pref_project_banner_off][@project.id.to_s] = Time.now.to_i
     render action: '_project_banner_off', layout: false
+  rescue StandardError => e
+    logger&.warn("When off project banner #{e.message}")
+    render plain: ''
   end
 
   def show
@@ -51,7 +53,6 @@ class BannerController < ApplicationController
     @banner.safe_attributes = banner_params
     @banner.role_id = role_id
 
-    # デフォルト( role_id=nil ) のときだけ force_display を反映
     if @banner.role_id.nil?
       @banner.force_display = params[:setting][:force_display].present?
     else

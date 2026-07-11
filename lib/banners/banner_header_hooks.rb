@@ -18,6 +18,7 @@ module Banners
     def view_layouts_base_content(context = {})
       project = context[:project]
       return unless enabled?(project)
+      return '' if project_banner_off?(context[:controller], project)
 
       banner = Banner.for(project, context[:user] || User.current)
       return '' unless banner&.enable_banner?
@@ -55,6 +56,14 @@ module Banners
       else
         false
       end
+    end
+
+    def project_banner_off?(controller, project)
+      store = controller.session[:pref_project_banner_off]
+      return false if store.blank?
+
+      off_time = store[project.id.to_s]
+      off_time.present? && off_time.to_i.positive?
     end
   end
 

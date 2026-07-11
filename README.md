@@ -1,15 +1,15 @@
 # Redmine Banner Plugin (Seraph3000 Fork)
 
 This is a maintained and extended fork of Akiko Takano's Redmine Banner plugin,
-with support and enhancements for Redmine 4 / 5 / 6.
+with support and enhancements for Redmine 5 / 6 / 7.
 
 - Original repository: https://github.com/akiko-pusu/redmine_banner
 - This fork: https://github.com/seraph3000/redmine_banner
-- Supported Redmine: 4.x / 5.x / 6.x
+- Supported Redmine: 5.x / 6.x / 7.x
 
 ## Key Features Added in This Fork
 
-- Redmine **4 / 5 / 6** support
+- Redmine **5 / 6 / 7** support
 - **Role-based project banners**
   (configure different messages per role)
 - **Forced display option**
@@ -276,11 +276,23 @@ If you don't configure any role-specific banners, the plugin behaves like the or
 1. Project banners do not support timer settings (start/end datetime).
 2. Project banners can only be displayed at the **top of the project page**.
    Footer display is not supported.
-3. For Redmine 3.x, use the upstream plugin's older versions (0.1.x series) instead of this fork.
+3. For Redmine 4.x, use version **0.4.2** of this fork.
+4. For Redmine 3.x, use the upstream plugin's older versions (0.1.x series) instead of this fork.
 
 ---
 
 ## Changelog (This Fork)
+
+### 0.5.0
+
+* **Macro preview**: macros can now be previewed (expanded) in the "Preview" tab of the banner settings screen before applying.
+* **Redmine 7.0 support**, following the SVG icon change on Redmine 6.x and later (admin / project menu, edit / off actions).
+  * Verified on **Redmine 7.0 / 6.1 / 6.0**.
+  * Also works on Redmine 5.x, but icons are simplified (text only).
+* **Supported versions changed**: dropped Redmine 4.x; now targets **Redmine 5.0 or higher**.
+  * For Redmine 4.x or earlier, use **0.4.2**.
+* **Fix**: project banner "Off" now hides the banner per session instead of permanently disabling it (previously one click disabled the banner).
+* Other minor bug fixes.
 
 ### 0.4.2
 
