@@ -21,6 +21,7 @@ with support and enhancements for Redmine 5 / 6 / 7.
   - Date / time
   - Environment info (PROD / STG / DEV, etc.)
   - User info (last login, login rank, etc.)
+  - Popup window (show content that does not fit in the banner itself)
 - Localization fixes and small UI improvements
 
 `README.md` is the English documentation. `README_ja.md` is the Japanese version.
@@ -82,6 +83,26 @@ This is due to stricter **Zeitwerk autoloading (naming convention checks)** in n
 If old files remain, mismatches between file paths and Ruby class/module names can trigger `Zeitwerk::NameError`.
 
 ---
+
+## Upgrading
+
+The directory layout of this fork differs from upstream (`lang/` removed, CI
+and test files dropped). **Do not copy the new files over an existing
+installation** — files that should have been removed will remain and cause
+`Zeitwerk::NameError` or locale conflicts.
+
+Move the old directory **outside** `plugins/`. Renaming it in place does not
+help: Redmine loads every directory under `plugins/`, so the old `init.rb`
+would be registered as well.
+
+    cd $REDMINE_ROOT
+    mkdir -p ../plugin_backup
+    mv plugins/redmine_banner ../plugin_backup/redmine_banner.$(date +%Y%m%d)
+    # Place the new directory in plugins/
+    bundle exec rake redmine:plugins:migrate RAILS_ENV=production
+    # Restart Redmine
+
+Delete the backup once you have confirmed the plugin works.
 
 ## Uninstall
 
@@ -231,6 +252,57 @@ You are the %{user_login_rank_today}th user to log in today.
 
 ---
 
+### Popup Window Macro
+
+* `%{popup:TEXT}`
+  Expands to a link that opens a floating window. `TEXT` is used as the link label and as the window title.
+
+The window content is **not** written inside the macro. Turn on **Enable popup window** in the banner settings and write the content in the **Popup content** field that appears.
+
+#### Setup
+
+1. Open the banner settings (global or project).
+2. Check **Enable popup window**.
+3. Write the content in the **Popup content** textarea that appears. Textile / Markdown and banner macros are both available, following your Redmine wiki format setting.
+4. Put `%{popup:TEXT}` anywhere in the banner message.
+
+#### Example
+
+Banner message:
+
+```text
+A new feature has been added. %{popup:Read more}
+```
+
+Popup content:
+
+```text
+h3. What's new
+
+* Role-based project banners
+* Banner macros
+
+Please contact the administrator if you have any questions.
+```
+
+#### Behavior
+
+* The window stays open while you keep using Redmine. No modal overlay is shown.
+* Drag the header to move it. Drag the bottom edge to change the height. The width is fixed at 420px.
+* **Double-click the header** to reset the position and height.
+* Only one window exists per tab. Clicking another popup link replaces the content and keeps the position.
+* The state is kept across page transitions (per browser tab). Closing the tab or the browser discards it.
+* On narrow screens (899px or less), the content is expanded inline in the banner instead of a floating window.
+* Project banners can have a different popup per role, since the setting belongs to each role-specific banner record.
+
+#### Notes
+
+* If **Enable popup window** is off, or **Popup content** is empty, the macro is removed from the banner message and nothing is shown.
+* The macro is also removed on the login page, so the window never appears for anonymous visitors.
+* `%{popup:...}` written inside **Popup content** is not expanded. Popups cannot be nested.
+
+---
+
 ## Project-level Banner
 
 This plugin can also be used as a project module.
@@ -283,6 +355,41 @@ If you don't configure any role-specific banners, the plugin behaves like the or
 
 ## Changelog (This Fork)
 
+### 0.5.2
+
+#### Added
+* **Popup window macro** (`%{popup:TEXT}`) for both global and project banners
+  * Clicking the expanded link opens a floating window that can be moved and
+    resized while continuing to use Redmine
+  * Popup content supports Textile / Markdown and banner macros
+    (except `%{popup:...}` itself — popups cannot be nested)
+  * Window position, height and open state are kept across page transitions
+    (per browser tab)
+  * On narrow screens (899px or less), the content is expanded inline in the
+    banner instead
+  * Project banners can have a different popup per role
+
+#### Fixed (inherited from upstream)
+* The global banner "Off" link passed `remote: true` in the URL options hash
+  instead of the HTML options hash, so it was sent as a query parameter
+  (`?moderate=yes&remote=true`) rather than becoming an Ajax request. Clicking
+  it navigated to the raw JavaScript response. Replaced with an explicit
+  `$.ajax` call. (Present in upstream 0.3.4 and in agileware-jp/redmine_banner.)
+
+#### Fixed (inherited from upstream / security)
+
+* The "more info" link on the global banner did not validate the URL scheme,
+  so values such as `javascript:` were emitted directly into `href`. A user
+  with global banner management rights could place a script-executing link on
+  every page. Only `http` and `https` are accepted now.
+
+  #### Removed
+
+* CI / Docker / test files inherited from upstream
+  * `.circleci` (contained deployment settings for external services),
+    `Dockerfile`, `docker-compose.yml`, `Gemfile.local`, `script/`, `test/`
+  * All were built for Redmine 4.x and no longer work
+
 ### 0.5.1
 
 * Security fixes [#1](https://github.com/seraph3000/redmine_banner/issues/1) [#2](https://github.com/seraph3000/redmine_banner/issues/2) [#3](https://github.com/seraph3000/redmine_banner/pull/3) (thanks to [@mael-chouteau](https://github.com/mael-chouteau))
@@ -326,11 +433,11 @@ For earlier changes, please see the original plugin's changelog:
 
 ## Repository
 
-* Original repository
-  [https://github.com/akiko-pusu/redmine_banner](https://github.com/akiko-pusu/redmine_banner)
-* This fork
-  [https://github.com/seraph3000/redmine_banner](https://github.com/seraph3000/redmine_banner)
-
+* Original: [akiko-pusu/redmine_banner](https://github.com/akiko-pusu/redmine_banner)
+  (Archived in January 2021 / final version 0.3.4)
+* Transferred to: [agileware-jp/redmine_banner](https://github.com/agileware-jp/redmine_banner)
+* This fork: [seraph3000/redmine_banner](https://github.com/seraph3000/redmine_banner)
+  (Based on 0.3.4, updated for Redmine 5 / 6 / 7)
 ---
 
 ## License

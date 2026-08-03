@@ -25,3 +25,7 @@ ko:
   # 0.4.0 Seraph3000
   label_banner_force_default: "Force display\n(override roles)"
   text_banner_force_default_help: "If checked, this project banner is shown to all users, overriding role-specific banners."
+  # 0.5.2 Seraph3000
+  label_banner_popup_enabled: "팝업 창 사용"
+  text_banner_popup_enabled_help: "선택하면 배너 메시지의 %{popup:TEXT} 매크로가 플로팅 창을 여는 링크가 됩니다."
+  label_banner_popup_content: "팝업 내용"

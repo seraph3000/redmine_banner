@@ -1,6 +1,7 @@
-let elements = document.getElementsById('banner_content');
-element.classList.add('fadeout');
-setTimeout(function(){
-    element.style.display = "none";
-}, 500);
-
+let element = document.getElementById('project_banner_area');
+if (element) {
+    element.classList.add('fadeout');
+    setTimeout(function(){
+        element.style.display = "none";
+    }, 500);
+}

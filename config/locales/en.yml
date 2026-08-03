@@ -35,3 +35,7 @@ en:
   # 0.4.0 Seraph3000
   label_banner_force_default: "Force display\n(override roles)"
   text_banner_force_default_help: "If checked, this project banner is shown to all users, overriding role-specific banners."
+  # 0.5.2 Seraph3000
+  label_banner_popup_enabled: "Enable popup window"
+  text_banner_popup_enabled_help: "If checked, the %{popup:TEXT} macro in the banner message becomes a link that opens a floating window."
+  label_banner_popup_content: "Popup content"

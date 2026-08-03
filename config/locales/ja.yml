@@ -35,3 +35,7 @@ ja:
   # 0.4.0 Seraph3000
   label_banner_force_default: "強制表示\n(全ロールに適用)"
   text_banner_force_default_help: "チェックを付けると、このプロジェクトの全ユーザーに、このバナーを表示します（ロール別バナーより優先されます）。"
+  # 0.5.2 Seraph3000
+  label_banner_popup_enabled: "ポップアップを有効にする"
+  text_banner_popup_enabled_help: "チェックを付けると、バナーメッセージ内の %{popup:表示テキスト} マクロが、小窓を開くリンクになります。"
+  label_banner_popup_content: "ポップアップの内容"

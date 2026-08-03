@@ -1,21 +1,8 @@
 # frozen_string_literal: true
 
-## require File.dirname(__FILE__) + '/../../lib/redmine'
 require File.dirname(__FILE__) + '/app/models/global_banner'
 require File.dirname(__FILE__) + '/lib/banners/banner_header_hooks'
 require File.dirname(__FILE__) + '/app/helpers/banner_helper'
-
-# NOTE: Keep error message for a while to support Redmine3.x users.
-def banner_version_message(original_message = nil)
-  <<-"USAGE"
-  ==========================
-  #{original_message}
-  If you use Redmine3.x, please use Redmine Banner version 0.1.x or clone via
-  'v0.1.x-support-Redmine3' branch.
-  You can download older version from here: https://github.com/akiko-pusu/redmine_banner/releases
-  ==========================
-  USAGE
-end
 
 def banner_admin?
   GlobalBanner.banner_admin?(User.current)
@@ -31,7 +18,7 @@ Redmine::Plugin.register :redmine_banner do
     author 'Akiko Takano / seraph3000'
     author_url 'https://github.com/seraph3000'
     description "Maintained fork of Akiko Takano's Redmine Banner plugin with role-based project banners, keeping original behaviour compatible."
-    version '0.5.1'
+    version '0.5.2'
     requires_redmine version_or_higher: '5.0'
     url 'https://github.com/seraph3000/redmine_banner'
 

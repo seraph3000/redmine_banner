@@ -54,10 +54,11 @@ module BannerHelper
     @banner_role_color_map[role.id] || ''
   end
 
-  def banner_expand_macros(text)
+  def banner_expand_macros(text, popup_enabled: false, popup_content: nil, popup_source: nil, popup_preview: false)
     return '' if text.blank?
 
     s = text.to_s.dup
+    expanded = 0
 
     # タイムゾーンと現在時刻
     zone =
@@ -86,16 +87,28 @@ module BannerHelper
       end
     end
 
+    # --- popup マクロ ---
+    s.gsub!(/%\{popup:([^}]+)\}/) do
+      link_text = Regexp.last_match(1).strip
+      if popup_enabled && popup_content.present? && User.current.logged?
+        if popup_preview
+          %(<span class="banner-popup-preview">#{h(link_text)}</span>)
+        else
+          %(<a href="#banner-popup-#{h(popup_source)}">#{h(link_text)}</a>)
+        end
+      else
+        ''
+      end
+    end
+
     # --- cdate/chours/cmin/ctime 系 ---
     s.gsub!(/%\{([^}]+)\}/) do
       inner = Regexp.last_match(1).strip
+      next "%{#{inner}}" unless (m = inner.match(/\A(cdate|chours|cmin|ctime)\s*:\s*(.{1,32})\z/))
+      next "%{#{inner}}" if (expanded += 1) > 32
 
-      unless inner =~ /\A(cdate|chours|cmin|ctime)\s*:\s*(.+)\z/
-        next "%{#{inner}}"
-      end
-
-      kind = Regexp.last_match(1)
-      raw  = Regexp.last_match(2).strip
+      kind = m[1]
+      raw  = m[2].strip
 
       begin
         deadline =
@@ -155,7 +168,6 @@ module BannerHelper
 
   def banner_user_last_login
     user = User.current
-    return '' if login_page?
     return '' unless user && user.logged? && user.last_login_on
 
     format_date(user.last_login_on)

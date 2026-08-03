@@ -4,7 +4,7 @@ class GlobalBanner < Setting
   # Default
   GLOBAL_BANNER_ADMIN_GROUP = 'GlobalBanner_Admin'
 
-  GLOBAL_BANNER_DEFAULT_SETTING = {
+GLOBAL_BANNER_DEFAULT_SETTING = {
     enable: 'false',
     banner_description: 'exp. Information about upcoming Service Interruption.',
     display_for: 'all',
@@ -19,7 +19,9 @@ class GlobalBanner < Setting
     end_hour: nil,
     end_min: nil,
     related_link: nil,
-    banner_admin: nil
+    banner_admin: nil,
+    popup_enabled: 'false',
+    popup_content: nil
   }.freeze
 
   # Class method
@@ -73,13 +75,16 @@ class GlobalBanner < Setting
   end
 
   def get_time(ymd, hour, minute)
-    begin
-      d = Date.strptime(ymd, '%Y-%m-%d')
+    d = begin
+      Date.strptime(ymd.to_s, '%Y-%m-%d')
     rescue StandardError => e
       logger&.warn("Passed value #{ymd} for Banner has wrong format. #{e.message}")
-      d = Date.current
+      Date.current
     end
-    Time.mktime(d.year, d.month, d.day, hour.to_i, minute.to_i)
+
+    ## Time.zone.local(d.year, d.month, d.day, hour.to_i.clamp(0, 23), minute.to_i.clamp(0, 59))
+    Time.mktime(d.year, d.month, d.day, hour.to_i.clamp(0, 23), minute.to_i.clamp(0, 59))
+    ## Time.mktime(d.year, d.month, d.day, hour.to_i, minute.to_i)
   end
 
   def valid_date_range?

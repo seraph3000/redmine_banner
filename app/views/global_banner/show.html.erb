@@ -48,6 +48,23 @@
     <%= wikitoolbar_for 'setting_banner_description', url_for(controller: 'banner', action: 'preview') %>
 
     <p>
+      <%= content_tag(:label, l(:label_banner_popup_enabled)) %>
+      <%= hidden_field_tag('setting[popup_enabled]', false).html_safe %>
+      <%= check_box_tag 'setting[popup_enabled]', true, setting['popup_enabled'] == 'true',
+                    id: 'banner_popup_enabled_cb' %>
+      <em><%= l(:text_banner_popup_enabled_help) %></em>
+    </p>
+
+    <div id="banner_popup_setting" style="display: <%= setting['popup_enabled'] == 'true' ? 'block' : 'none' %>">
+      <p>
+        <%= content_tag(:label, l(:label_banner_popup_content)) %>
+        <%= text_area_tag 'setting[popup_content]', setting['popup_content'], size: '40x8',
+                      class: 'wiki-edit' %><br/>
+      </p>
+      <%= wikitoolbar_for 'setting_popup_content', url_for(controller: 'banner', action: 'preview') %>
+    </div>
+
+    <p>
       <%= content_tag(:label, l(:setting_banner_related_link))%>
       <%= text_field_tag 'setting[related_link]', setting['related_link'], size: 40 %><br/>
       <span class=''><%= l(:setting_banner_related_link_description) %></span>
@@ -106,7 +123,31 @@
 <%= submit_tag l(:button_apply) %>
 <% end %>
 
-<!-- confirmation popup -->
+<script type='text/javascript'>
+  (function () {
+    var cb = document.getElementById('banner_popup_enabled_cb');
+    var box = document.getElementById('banner_popup_setting');
+    if (!cb || !box) { return; }
+
+    function syncPreviewUrl() {
+      var ta = document.getElementById('setting_banner_description');
+      if (!ta) { return; }
+      var tab = $(ta).parents('.jstBlock').find('a.tab-preview');
+      if (!tab.length) { return; }
+
+      var url = (tab.data('url') || '').split('?')[0];
+      tab.data('url', url + '?popup_enabled=' + (cb.checked ? '1' : '0'));
+    }
+
+    cb.addEventListener('change', function () {
+      box.style.display = cb.checked ? 'block' : 'none';
+      syncPreviewUrl();
+    });
+
+    $(function () { syncPreviewUrl(); });
+  })();
+</script>
+
 <script type='text/javascript'>
   $("#global_banner").submit(function(event) {
     let confirm_msg = '<%= l(:text_are_you_sure) %>';

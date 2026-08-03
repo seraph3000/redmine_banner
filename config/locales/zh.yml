@@ -35,4 +35,7 @@ zh:
   # 0.4.0 Seraph3000
   label_banner_force_default: "Force display\n(override roles)"
   text_banner_force_default_help: "If checked, this project banner is shown to all users, overriding role-specific banners."
-
+  # 0.5.2 Seraph3000
+  label_banner_popup_enabled: "启用弹出窗口"
+  text_banner_popup_enabled_help: "勾选后，Banner横幅信息中的 %{popup:TEXT} 宏将变为可打开浮动窗口的链接。"
+  label_banner_popup_content: "弹出窗口内容"

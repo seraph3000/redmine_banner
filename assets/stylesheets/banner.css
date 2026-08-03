@@ -212,3 +212,191 @@ div.banner_area div.banner_more_info:hover {
   background-color: #777777;
   color: #ffffff;
 }
+
+/*------------ popup window -----------------*/
+
+/* トリガーリンク（バナー本文内） */
+a[href^="#banner-popup-"] {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* message アイコン。mask で描くのでリンク色をそのまま継承する */
+a[href^="#banner-popup-"]::before {
+  content: "";
+  display: inline-block;
+  width: 1.05em;
+  height: 1.05em;
+  flex: 0 0 auto;
+  background-color: currentColor;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 9h8'/%3E%3Cpath d='M8 13h6'/%3E%3Cpath d='M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-5l-5 3v-3h-2a3 3 0 0 1-3-3v-8a3 3 0 0 1 3-3h12z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 9h8'/%3E%3Cpath d='M8 13h6'/%3E%3Cpath d='M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-5l-5 3v-3h-2a3 3 0 0 1-3-3v-8a3 3 0 0 1 3-3h12z'/%3E%3C/svg%3E");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+/* 小窓本体 */
+div.banner-popup-window {
+  display: none;
+  position: fixed;
+  z-index: 200;
+  width: 420px;
+  min-height: 200px;
+  max-height: 90vh;
+  box-sizing: border-box;
+  background-color: #fff;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, .25);
+  color: #333;
+
+  /* 高さのみリサイズ可。幅は 420px 固定 */
+  resize: vertical;
+  overflow: hidden;
+}
+
+div.banner-popup-window.banner-popup-open {
+  display: flex;
+  flex-direction: column;
+}
+
+div.banner-popup-header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  background-color: #4a5f7a;
+  color: #fff;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  cursor: move;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+span.banner-popup-title {
+  font-weight: bold;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+a.banner-popup-close {
+  flex: 0 0 auto;
+  margin-left: 8px;
+  padding: 0 4px;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1;
+  text-decoration: none;
+  opacity: 0.85;
+}
+
+a.banner-popup-close:hover {
+  color: #fff;
+  text-decoration: none;
+  opacity: 1;
+}
+
+div.banner-popup-content {
+  flex: 1 1 auto;
+  padding: 8px 12px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-size: 0.9em;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+div.banner-popup-content p:first-child {
+  margin-top: 0;
+}
+
+div.banner-popup-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* ドラッグ中は本文のテキスト選択とマウス反応を止める */
+div.banner-popup-window.banner-popup-dragging {
+  opacity: .95;
+}
+
+div.banner-popup-window.banner-popup-dragging div.banner-popup-content {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/*------------ popup : mobile accordion -----------------*/
+
+@media (max-width: 899px) {
+  /* モバイルではフローティングウィンドウを使わない */
+  div.banner-popup-window{
+    display: none !important;
+  }
+}
+
+/* バナー内インライン展開（モバイル時に JS が display: block を入れる） */
+div.banner-popup-source.banner-popup-inline-open {
+  margin: 6px 0 2px;
+  padding: 8px 10px;
+  max-height: 50vh;
+  overflow-y: auto;
+  background-color: rgba(255, 255, 255, .75);
+  border: 1px solid rgba(0, 0, 0, .15);
+  border-radius: 3px;
+  font-size: 0.9em;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+div.banner-popup-source.banner-popup-inline-open div.banner-popup-body > p:first-child {
+  margin-top: 0;
+}
+
+div.banner-popup-source.banner-popup-inline-open div.banner-popup-body > p:last-child {
+  margin-bottom: 0;
+}
+
+/* 展開パネル内の閉じるボタン（モバイルのみ表示される） */
+a.banner-popup-inline-close {
+  float: right;
+  margin: -2px -2px 0 6px;
+  padding: 0 6px;
+  color: #4a5f7a;
+  font-size: 16px;
+  line-height: 1.2;
+  text-decoration: none;
+  opacity: 0.7;
+}
+
+a.banner-popup-inline-close:hover,
+a.banner-popup-inline-close:active {
+  opacity: 1;
+  text-decoration: none;
+}
+
+/* モバイルではトリガーリンクに開閉キャレットを出す */
+@media (max-width: 899px) {
+  a[href^="#banner-popup-"]::after {
+    content: "\25BE";
+    margin-left: 3px;
+    font-size: 0.85em;
+    line-height: 1;
+  }
+
+  a.banner-popup-trigger-open::after {
+    content: "\25B4";
+  }
+
+  a.banner-popup-trigger-open {
+    font-weight: bold;
+  }
+}

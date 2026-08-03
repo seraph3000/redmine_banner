@@ -6,6 +6,8 @@ module Banners
 
     def view_layouts_base_html_head(_context = {})
       o = stylesheet_link_tag('banner', plugin: 'redmine_banner')
+      scope = ERB::Util.html_escape(Redmine::Utils.relative_url_root.to_s)
+      o << %(<meta name="banner-popup-scope" content="#{scope}">).html_safe
       o << javascript_include_tag('banner', plugin: 'redmine_banner')
       o
     end
@@ -33,6 +35,11 @@ module Banners
     end
 
     private
+
+    def popup_scope_meta_tag
+      scope = Redmine::Utils.relative_url_root.to_s
+      %(<meta name="banner-popup-scope" content="#{ERB::Util.html_escape(scope)}">).html_safe
+    end
 
     def enabled?(project)
       return false if project.nil?
@@ -96,9 +103,11 @@ module Banners
     end
 
     def should_display_on_current_page?(context, setting)
-      return false if ((context[:controller].class.name != 'AccountController') &&
-          (context[:controller].action_name != 'login')) &&
-                      (setting['display_only_login_page'] == 'true')
+      if setting['display_only_login_page'] == 'true'
+        on_login_page = context[:controller].class.name == 'AccountController' &&
+                        context[:controller].action_name == 'login'
+        return false unless on_login_page
+      end
 
       return false if banner_is_off?(context[:controller])
       should_display_for?(setting)

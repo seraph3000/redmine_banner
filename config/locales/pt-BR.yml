@@ -31,3 +31,7 @@ pt-BR:
   # 0.4.0 Seraph3000
   label_banner_force_default: "Force display\n(override roles)"
   text_banner_force_default_help: "If checked, this project banner is shown to all users, overriding role-specific banners."
+  # 0.5.2 Seraph3000
+  label_banner_popup_enabled: "Ativar janela pop-up"
+  text_banner_popup_enabled_help: "Se marcado, a macro %{popup:TEXT} na mensagem do banner se torna um link que abre uma janela flutuante."
+  label_banner_popup_content: "Conteúdo do pop-up"

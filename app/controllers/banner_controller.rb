@@ -11,8 +11,20 @@ class BannerController < ApplicationController
   before_action :authorize_preview, only: [:preview]
 
   def preview
-    text  = params[:text].presence || params.dig(:setting, :banner_description).to_s
-    @text = view_context.banner_expand_macros(text)
+    # NOTE: Redmine 4.0 以降の jstoolbar プレビュー（#27758）は
+    #       "text=<textarea の値>" と添付欄しか送らない（フォーム全体を serialize しない）。
+    #       このため params[:setting] は存在しない。
+    #       popup の有効状態は、ビュー側の JS がプレビュー URL に付与している。
+    text = params[:text].to_s
+
+    popup_enabled = %w[1 true].include?(params[:popup_enabled].to_s)
+
+    @text = view_context.banner_expand_macros(
+      text,
+      popup_enabled: popup_enabled,
+      popup_content: popup_enabled ? '1' : nil,
+      popup_preview: true
+    )
     render partial: 'common/preview'
   end
 
@@ -28,8 +40,13 @@ class BannerController < ApplicationController
   end
 
   def project_banner_off
-    session[:pref_project_banner_off] ||= {}
-    session[:pref_project_banner_off][@project.id.to_s] = Time.now.to_i
+    store = (session[:pref_project_banner_off] ||= {})
+    store[@project.id.to_s] = Time.now.to_i
+
+    if store.size > 20
+      session[:pref_project_banner_off] = store.sort_by { |_, v| -v.to_i }.first(20).to_h
+    end
+
     render action: '_project_banner_off', layout: false
   rescue StandardError => e
     logger&.warn("When off project banner #{e.message}")
@@ -77,6 +94,7 @@ class BannerController < ApplicationController
 
   def find_project
     @project = Project.find(params[:project_id])
+    render_404 unless @project.visible?
   rescue ActiveRecord::RecordNotFound
     render_404
   end
@@ -89,7 +107,7 @@ class BannerController < ApplicationController
   end
 
   def banner_params
-    params.require(:setting).permit('banner_description', 'style', 'start_date', 'end_date', 'enabled', 'use_timer', 'display_part', 'role_id')
+    params.require(:setting).permit('banner_description', 'style', 'start_date', 'end_date', 'enabled', 'use_timer', 'display_part', 'role_id', 'popup_enabled', 'popup_content')
   end
 
   def authorize_preview

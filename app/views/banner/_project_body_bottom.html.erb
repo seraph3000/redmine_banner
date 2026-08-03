@@ -7,8 +7,17 @@
     <% end %>
 
     <%#= textilizable banner.banner_description %>
-    <%= textilizable(banner_expand_macros(banner.banner_description)) %>
+    <%= textilizable(banner_expand_macros(banner.banner_description,
+          popup_enabled: banner.popup_enabled?,
+          popup_content: banner.popup_content,
+          popup_source: 'project')) %>
   </div>
+
+  <% if banner.popup_enabled? && banner.popup_content.present? %>
+    <div class="banner-popup-source" data-source="project" style="display: none;">
+      <div class="banner-popup-body"><%= textilizable(banner_expand_macros(banner.popup_content)) %></div>
+    </div>
+  <% end %>
 
 <%
 if authorize_for(:banner, :edit)

@@ -13,8 +13,12 @@ class Banner < ActiveRecord::Base
   validates :display_part, inclusion: { in: %w[all new_issue overview overview_and_issues] }
   validates :style,        inclusion: { in: %w[info warn alert normal nodata] }
 
+  validates :banner_description, length: { maximum: 4_000 }, allow_blank: true
+  validates :popup_content,      length: { maximum: 8_000 }, allow_blank: true
+
   safe_attributes 'banner_description', 'style', 'start_date', 'end_date',
-                  'enabled', 'use_timer', 'display_part', 'role_id', 'force_display'
+                  'enabled', 'use_timer', 'display_part', 'role_id', 'force_display',
+                  'popup_enabled', 'popup_content'
 
   # 既存互換：デフォルト（role_id = NULL）のバナーを 1 つ確保
   def self.find_or_create(project_id)

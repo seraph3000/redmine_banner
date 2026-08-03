@@ -29,3 +29,7 @@ bg:
   # 0.4.0 Seraph3000
   label_banner_force_default: "Force display\n(override roles)"
   text_banner_force_default_help: "If checked, this project banner is shown to all users, overriding role-specific banners."
+  # 0.5.2 Seraph3000
+  label_banner_popup_enabled: "Разрешаване на изскачащ прозорец"
+  text_banner_popup_enabled_help: "Ако е отметнато, макросът %{popup:TEXT} в съобщението на банера става връзка, която отваря плаващ прозорец."
+  label_banner_popup_content: "Съдържание на изскачащия прозорец"
