@@ -82,9 +82,7 @@ GLOBAL_BANNER_DEFAULT_SETTING = {
       Date.current
     end
 
-    ## Time.zone.local(d.year, d.month, d.day, hour.to_i.clamp(0, 23), minute.to_i.clamp(0, 59))
     Time.mktime(d.year, d.month, d.day, hour.to_i.clamp(0, 23), minute.to_i.clamp(0, 59))
-    ## Time.mktime(d.year, d.month, d.day, hour.to_i, minute.to_i)
   end
 
   def valid_date_range?

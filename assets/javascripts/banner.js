@@ -331,7 +331,7 @@ document.addEventListener('DOMContentLoaded', function () {
         };
 
         win.classList.add('banner-popup-dragging');
-        e.preventDefault();   /* テキスト選択を抑止 */
+        e.preventDefault();
     });
 
     document.addEventListener('mousemove', function (e) {
@@ -384,9 +384,6 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
             }
         }
-
-        /* Redmine のコンテキストメニュー等が開いていれば、そちらを優先する */
-        /* if (document.querySelector('#context-menu:not([style*="display: none"])')) { return; } */
 
         BP.close();
     });
