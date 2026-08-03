@@ -11,21 +11,17 @@ class BannerController < ApplicationController
   before_action :authorize_preview, only: [:preview]
 
   def preview
-    # NOTE: Redmine 4.0 以降の jstoolbar プレビュー（#27758）は
-    #       "text=<textarea の値>" と添付欄しか送らない（フォーム全体を serialize しない）。
-    #       このため params[:setting] は存在しない。
-    #       popup の有効状態は、ビュー側の JS がプレビュー URL に付与している。
     text = params[:text].to_s
 
     popup_enabled = %w[1 true].include?(params[:popup_enabled].to_s)
 
     @text = view_context.banner_expand_macros(
-      text,
+      view_context.textilizable(text),
       popup_enabled: popup_enabled,
       popup_content: popup_enabled ? '1' : nil,
       popup_preview: true
-    )
-    render partial: 'common/preview'
+    ).html_safe
+    render partial: 'banner/preview'
   end
 
   #

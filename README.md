@@ -42,7 +42,16 @@ Add dynamic content to your banners using macros.
 
 ![Macro expansion example](https://assets.st-note.com/img/1774708680-Vbuoi0ev9rTpwPmOg1D4xqYa.png)
 
-For a detailed introduction (in Japanese), see: https://note.com/taba_muichi/n/ncf2c00d2c54b
+**Popup window**
+
+A movable, resizable window opens from a link in the banner.
+
+![Popup window](https://assets.st-note.com/img/1785745393-dALpV7COuxol8vQ5cjs9yGm2.png)
+
+Detailed articles (Japanese, auto-translated into English):
+
+* [Role-based banners and macros](https://note.com/taba_muichi/n/ncf2c00d2c54b?hl=en)
+* [Adding a popup window to Redmine Banner](https://note.com/taba_muichi/n/n9ddeb0663758?hl=en)
 
 ---
 
@@ -383,7 +392,7 @@ If you don't configure any role-specific banners, the plugin behaves like the or
   with global banner management rights could place a script-executing link on
   every page. Only `http` and `https` are accepted now.
 
-  #### Removed
+#### Removed
 
 * CI / Docker / test files inherited from upstream
   * `.circleci` (contained deployment settings for external services),
@@ -436,6 +445,7 @@ For earlier changes, please see the original plugin's changelog:
 * Original: [akiko-pusu/redmine_banner](https://github.com/akiko-pusu/redmine_banner)
   (Archived in January 2021 / final version 0.3.4)
 * Transferred to: [agileware-jp/redmine_banner](https://github.com/agileware-jp/redmine_banner)
+  (Latest tag 0.3.5 / CI configuration changes only)
 * This fork: [seraph3000/redmine_banner](https://github.com/seraph3000/redmine_banner)
   (Based on 0.3.4, updated for Redmine 5 / 6 / 7)
 ---

@@ -162,8 +162,6 @@ module BannerHelper
 
   def login_page?
     controller.controller_name == 'account' && controller.action_name == 'login'
-  rescue
-    false
   end
 
   def banner_user_last_login

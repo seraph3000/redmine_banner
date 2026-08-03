@@ -1,10 +1,11 @@
 <div class="banner_area global_banner">
   <div class="banner banner_<%= setting['type'] %>" id="banner_content">
     <%#= textilizable setting['banner_description'] %>
-    <%= textilizable(banner_expand_macros(setting['banner_description'],
-          popup_enabled: setting['popup_enabled'] == 'true',
-          popup_content: setting['popup_content'],
-          popup_source: 'global')) %>
+    <%= banner_expand_macros(
+        textilizable(setting['banner_description']),
+        popup_enabled: setting['popup_enabled'] == 'true',
+        popup_content: setting['popup_content'],
+        popup_source: 'global').html_safe %>
   </div>
 
   <% if setting['popup_enabled'] == 'true' && setting['popup_content'].present? && !login_page? %>

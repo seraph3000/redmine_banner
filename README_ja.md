@@ -44,7 +44,16 @@ Redmine 5 / 6 / 7 向けに拡張・保守している fork です。
 
 ![マクロ機能の結果の例](https://assets.st-note.com/img/1774708680-Vbuoi0ev9rTpwPmOg1D4xqYa.png)
 
-詳しい紹介記事（日本語）: https://note.com/taba_muichi/n/ncf2c00d2c54b
+**ポップアップ小窓機能**
+
+バナーのリンクから、移動・リサイズ可能な小窓で詳細情報を表示できます。
+
+![小窓の表示イメージ](https://assets.st-note.com/img/1785594893-4s7N06gEQzMY9X2WBujhUtAp.png)
+
+詳しい紹介記事（日本語）:
+
+* [Redmine Banner拡張版 - ロールベースバナーとマクロ機能を実装](https://note.com/taba_muichi/n/ncf2c00d2c54b)
+* [Redmine Bannerに「小窓」を追加 - バナーに書ききれない情報を、作業しながら読ませる](https://note.com/taba_muichi/n/n9ddeb0663758)
 
 ---
 
@@ -395,7 +404,7 @@ h3. 追加された機能
   スクリプト実行リンクを設置できる状態でした。`http` / `https` のみを
   許可するよう変更しています。
 
-  #### 削除
+#### 削除
 
 * 上流から引き継いだ CI / Docker / テスト関連ファイルを削除
   * `.circleci`（外部サービスへのデプロイ設定を含む）、`Dockerfile`、
