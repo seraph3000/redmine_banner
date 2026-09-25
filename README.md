@@ -364,6 +364,13 @@ If you don't configure any role-specific banners, the plugin behaves like the or
 
 ## Changelog (This Fork)
 
+### 0.5.3
+
+#### Fixes
+
+* Fixed an issue where popup links were not displayed correctly when using Textile formatting.
+* Increased the text limit for banner and popup content to 30,000 characters.
+
 ### 0.5.2
 
 #### Added
