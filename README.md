@@ -362,7 +362,14 @@ If you don't configure any role-specific banners, the plugin behaves like the or
 
 ---
 
-## Changelog (This Fork)
+## Changelog
+
+### 0.5.4
+
+#### Fixes
+
+* Updated banner edit and hide links to use main_app route helpers for compatibility with views rendered inside Rails engines.
+* Thanks to @alecghica for contributing this fix.
 
 ### 0.5.3
 

@@ -27,7 +27,7 @@ if authorize_for(:banner, :edit)
 <div class="banner_edit">
     <%= link_to(
           (banner_action_icon_edit + l(:button_edit)).html_safe,
-          { controller: 'banner', action: 'show', project_id: @project, role_id: banner.role_id },
+          main_app.project_banner_index_path(@project, role_id: banner.role_id),
           class: 'banner-icon-edit-link',
           title: l(:button_edit)
         ) %>
@@ -37,7 +37,7 @@ if authorize_for(:banner, :edit)
           class: 'banner-icon-off-link',
           title: l(:banner_off),
           onclick: "$.ajax({" \
-                   "url: '#{url_for(controller: :banner, action: 'project_banner_off', project_id: @project, role_id: banner.role_id)}'," \
+                   "url: '#{main_app.project_banner_off_project_banner_index_path(@project, role_id: banner.role_id)}'," \
                    "type: 'get'," \
                    "success: function(){ $('#project_banner_area').fadeOut(500, function(){ $(this).remove(); }); }" \
                    "}); return false;"
